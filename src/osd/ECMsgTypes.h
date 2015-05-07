@@ -41,7 +41,7 @@ struct ECSubWrite {
     osd_reqid_t reqid,
     hobject_t soid,
     const pg_stat_t &stats,
-    ObjectStore::Transaction *in_t,
+    const ObjectStore::Transaction &t,
     eversion_t at_version,
     eversion_t trim_to,
     eversion_t trim_rollback_to,
@@ -50,16 +50,13 @@ struct ECSubWrite {
     const set<hobject_t> &temp_added,
     const set<hobject_t> &temp_removed)
     : from(from), tid(tid), reqid(reqid),
-      soid(soid), stats(stats),
+      soid(soid), stats(stats), t(t),
       at_version(at_version),
       trim_to(trim_to), trim_rollback_to(trim_rollback_to),
       log_entries(log_entries),
       temp_added(temp_added),
       temp_removed(temp_removed),
-      updated_hit_set_history(updated_hit_set_history) {
-    if (in_t)
-      t.swap(*in_t);
-  }
+      updated_hit_set_history(updated_hit_set_history) {}
   void claim(ECSubWrite &other) {
     from = other.from;
     tid = other.tid;

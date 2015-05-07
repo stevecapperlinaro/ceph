@@ -1559,7 +1559,7 @@ void ECBackend::start_write(Op *op) {
       op->reqid,
       op->hoid,
       stats,
-      should_send ? &(iter->second) : NULL,
+      should_send ? iter->second : empty,
       op->version,
       op->trim_to,
       op->trim_rollback_to,
